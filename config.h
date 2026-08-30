@@ -122,6 +122,7 @@ static const char *termcmd[] = { "foot", NULL };
 static const char *filemanager[] = { "pcmanfm", NULL };
 static const char *menucmd[] = { "wmenu-run", "-f", "JetBrainsMono nerd Font 12", "-l", "10", NULL };
 static const char *browser[] = { "librewolf", NULL };
+static const char *lockscreen[] = { "hyprlock", NULL };
 static const char *screenshotcmd[] = { "sh", "-c", "grim -g \"$(slurp)\" - | tee /home/USERNAME/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy", NULL };
 static const char *volupcmd[]       = { "wpctl", "set-volume", "-l", "1", "@DEFAULT_AUDIO_SINK@", "5%+", NULL };
 static const char *voldowncmd[]     = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%-", NULL };
@@ -135,6 +136,7 @@ static const Key keys[] = {
 	/* modifier                  key                  function          argument */
 	{ MODKEY,                    XKB_KEY_r,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_q,           spawn,            {.v = termcmd} },
+	{ MODKEY,                    XKB_KEY_n,           spawn,            {.v = lockscreen} },
 	{ MODKEY,                    XKB_KEY_e,           spawn,            {.v = filemanager} },
     { MODKEY,                    XKB_KEY_w,           spawn,            SHCMD("~/.scripts/wallpaper.sh") },
 	{ MODKEY,                    XKB_KEY_b,           spawn,            {.v = browser} },
