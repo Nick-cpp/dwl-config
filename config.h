@@ -122,7 +122,7 @@ static const char *termcmd[] = { "foot", NULL };
 static const char *filemanager[] = { "pcmanfm", NULL };
 static const char *menucmd[] = { "wmenu-run", "-f", "JetBrainsMono nerd Font 12", "-l", "10", NULL };
 static const char *browser[] = { "librewolf", NULL };
-static const char *screenshotcmd[]  = { "hyprshot", "-m", "region", "-o", "/home/USERNAME/Pictures/Screenshots", "-s", NULL };
+static const char *screenshotcmd[] = { "sh", "-c", "grim -g \"$(slurp)\" - | tee /home/USERNAME/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy", NULL };
 static const char *volupcmd[]       = { "wpctl", "set-volume", "-l", "1", "@DEFAULT_AUDIO_SINK@", "5%+", NULL };
 static const char *voldowncmd[]     = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%-", NULL };
 static const char *volmutecmd[]     = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
@@ -156,6 +156,8 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_period,      focusmon,         {.i = WLR_DIRECTION_RIGHT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_less,        tagmon,           {.i = WLR_DIRECTION_LEFT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_greater,     tagmon,           {.i = WLR_DIRECTION_RIGHT} },
+	{ MODKEY,                    XKB_KEY_j,           focusstack,       {.i = +1} },
+	{ MODKEY,                    XKB_KEY_k,           focusstack,       {.i = -1} },
 	TAGKEYS(          XKB_KEY_1, XKB_KEY_exclam,                        0),
 	TAGKEYS(          XKB_KEY_2, XKB_KEY_at,                            1),
 	TAGKEYS(          XKB_KEY_3, XKB_KEY_numbersign,                    2),
