@@ -1,0 +1,26 @@
+--- dwl.c
++++ dwl.c
+@@ -1632,19 +1624,16 @@ keypress(struct wl_listener *listener, void *data)
+ 	/* This event is raised when a key is pressed or released. */
+ 	KeyboardGroup *group = wl_container_of(listener, group, key);
+ 	struct wlr_keyboard_key_event *event = data;
+-	int nsyms, handled;
+ 
+ 	/* Translate libinput keycode -> xkbcommon */
+ 	uint32_t keycode = event->keycode + 8;
+ 	/* Get a list of keysyms based on the keymap for this keyboard */
+ 	const xkb_keysym_t *syms;
++	int nsyms = xkb_state_key_get_syms(
++			group->wlr_group->keyboard.xkb_state, keycode, &syms);
++
++	int handled = 0;
+ 	uint32_t mods = wlr_keyboard_get_modifiers(&group->wlr_group->keyboard);
+-	xkb_state_update_key(en_state, keycode,
+-			(event->state == WL_KEYBOARD_KEY_STATE_PRESSED)
+-			? XKB_KEY_DOWN : XKB_KEY_UP);
+-	nsyms = xkb_state_key_get_syms(en_state, keycode, &syms);
+-
+-	handled = 0;
+ 
+ 	wlr_idle_notifier_v1_notify_activity(idle_notifier, seat);
+ 

@@ -481,11 +481,6 @@ static struct wl_listener request_start_drag = {.notify = requeststartdrag};
 static struct wl_listener start_drag = {.notify = startdrag};
 static struct wl_listener new_session_lock = {.notify = locksession};
 
-static struct xkb_rule_names en_rules;
-static struct xkb_context *en_context;
-static struct xkb_keymap *en_keymap;
-static struct xkb_state *en_state;
-
 #ifdef XWAYLAND
 static void activatex11(struct wl_listener *listener, void *data);
 static void associatex11(struct wl_listener *listener, void *data);
@@ -875,9 +870,6 @@ cleanup(void)
 	wlr_backend_destroy(backend);
 
 	wl_display_destroy(dpy);
-	xkb_state_unref(en_state);
-	xkb_keymap_unref(en_keymap);
-	xkb_context_unref(en_context);
 	/* Destroy after the wayland display (when the monitors are already destroyed)
 	   to avoid destroying them with an invalid scene output. */
 	wlr_scene_node_destroy(&scene->tree.node);
@@ -1895,8 +1887,6 @@ keyboard_handle_modifiers(struct wl_listener *listener, void *data)
 {
     KeyboardGroup *group = wl_container_of(listener, group, modifiers);
 
-    write_xkb_layout(group->wlr_group->keyboard.xkb_state);
-
     wlr_seat_set_keyboard(seat, &group->wlr_group->keyboard);
     wlr_seat_keyboard_notify_modifiers(seat,
             &group->wlr_group->keyboard.modifiers);
@@ -1905,48 +1895,50 @@ keyboard_handle_modifiers(struct wl_listener *listener, void *data)
 void
 keypress(struct wl_listener *listener, void *data)
 {
-	int i;
-	/* This event is raised when a key is pressed or released. */
-	KeyboardGroup *group = wl_container_of(listener, group, key);
-	struct wlr_keyboard_key_event *event = data;
+    int i;
+    /* This event is raised when a key is pressed or released. */
+    KeyboardGroup *group = wl_container_of(listener, group, key);
+    struct wlr_keyboard_key_event *event = data;
 
-	/* Translate libinput keycode -> xkbcommon */
-	uint32_t keycode = event->keycode + 8;
-	/* Get a list of keysyms based on the keymap for this keyboard */
-	const xkb_keysym_t *syms;
-	int nsyms = xkb_state_key_get_syms(
-			group->wlr_group->keyboard.xkb_state, keycode, &syms);
+    /* Translate libinput keycode -> xkbcommon */
+    uint32_t keycode = event->keycode + 8;
+    /* Get a list of keysyms based on the keymap for this keyboard */
+    const xkb_keysym_t *syms;
+    int nsyms = xkb_state_key_get_syms(
+            group->wlr_group->keyboard.xkb_state, keycode, &syms);
 
-	int handled = 0;
-	uint32_t mods = wlr_keyboard_get_modifiers(&group->wlr_group->keyboard);
+    int handled = 0;
+    uint32_t mods = wlr_keyboard_get_modifiers(&group->wlr_group->keyboard);
 
-	wlr_idle_notifier_v1_notify_activity(idle_notifier, seat);
+    wlr_idle_notifier_v1_notify_activity(idle_notifier, seat);
 
-	/* On _press_ if there is no active screen locker,
-	 * attempt to process a compositor keybinding. */
-	if (!locked && event->state == WL_KEYBOARD_KEY_STATE_PRESSED) {
-		for (i = 0; i < nsyms; i++)
-			handled = keybinding(mods, syms[i]) || handled;
-	}
+    /* On _press_ if there is no active screen locker,
+     * attempt to process a compositor keybinding. */
+    if (!locked && event->state == WL_KEYBOARD_KEY_STATE_PRESSED) {
+        for (i = 0; i < nsyms; i++)
+            handled = keybinding(mods, syms[i]) || handled;
+    }
 
-	if (handled && group->wlr_group->keyboard.repeat_info.delay > 0) {
-		group->mods = mods;
-		group->keysyms = syms;
-		group->nsyms = nsyms;
-		wl_event_source_timer_update(group->key_repeat_source,
-				group->wlr_group->keyboard.repeat_info.delay);
-	} else {
-		group->nsyms = 0;
-		wl_event_source_timer_update(group->key_repeat_source, 0);
-	}
+    write_xkb_layout(group->wlr_group->keyboard.xkb_state);
 
-	if (handled)
-		return;
+    if (handled && group->wlr_group->keyboard.repeat_info.delay > 0) {
+        group->mods = mods;
+        group->keysyms = syms;
+        group->nsyms = nsyms;
+        wl_event_source_timer_update(group->key_repeat_source,
+                group->wlr_group->keyboard.repeat_info.delay);
+    } else {
+        group->nsyms = 0;
+        wl_event_source_timer_update(group->key_repeat_source, 0);
+    }
 
-	wlr_seat_set_keyboard(seat, &group->wlr_group->keyboard);
-	/* Pass unhandled keycodes along to the client. */
-	wlr_seat_keyboard_notify_key(seat, event->time_msec,
-			event->keycode, event->state);
+    if (handled)
+        return;
+
+    wlr_seat_set_keyboard(seat, &group->wlr_group->keyboard);
+    /* Pass unhandled keycodes along to the client. */
+    wlr_seat_keyboard_notify_key(seat, event->time_msec,
+            event->keycode, event->state);
 }
 
 void
@@ -2856,12 +2848,6 @@ setup(void)
 	 * pointer, touch, and drawing tablet device. We also rig up a listener to
 	 * let us know when new input devices are available on the backend.
 	 */
-	en_context = xkb_context_new(XKB_CONTEXT_NO_FLAGS);
-	en_rules = xkb_rules;
-	en_rules.layout = "us";
-	en_keymap = xkb_keymap_new_from_names(en_context, &en_rules,
-		XKB_KEYMAP_COMPILE_NO_FLAGS);
-	en_state = xkb_state_new(en_keymap);
 	wl_signal_add(&backend->events.new_input, &new_input_device);
 	virtual_keyboard_mgr = wlr_virtual_keyboard_manager_v1_create(dpy);
 	wl_signal_add(&virtual_keyboard_mgr->events.new_virtual_keyboard,
