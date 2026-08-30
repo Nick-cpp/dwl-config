@@ -1870,19 +1870,36 @@ keybinding(uint32_t mods, xkb_keysym_t sym)
 static void
 write_xkb_layout(struct xkb_state *state)
 {
-	xkb_layout_index_t layout;
-	FILE *f;
+    static xkb_layout_index_t prev_layout = (xkb_layout_index_t)-1;
+    xkb_layout_index_t layout;
+    FILE *f;
 
-	if (!state)
-		return;
+    if (!state)
+        return;
 
-	layout = xkb_state_serialize_layout(state, XKB_STATE_LAYOUT_EFFECTIVE);
+    layout = xkb_state_serialize_layout(state, XKB_STATE_LAYOUT_EFFECTIVE);
 
-	f = fopen("/tmp/kl", "w");
-	if (f) {
-		fputs((layout == 1) ? "RU" : "US", f);
-		fclose(f);
-	}
+    if (layout == prev_layout)
+        return;
+
+    f = fopen("/tmp/kl", "w");
+    if (f) {
+        fputs((layout == 1) ? "RU" : "US", f);
+        fclose(f);
+        prev_layout = layout;
+    }
+}
+
+static void
+keyboard_handle_modifiers(struct wl_listener *listener, void *data)
+{
+    KeyboardGroup *group = wl_container_of(listener, group, modifiers);
+
+    write_xkb_layout(group->wlr_group->keyboard.xkb_state);
+
+    wlr_seat_set_keyboard(seat, &group->wlr_group->keyboard);
+    wlr_seat_keyboard_notify_modifiers(seat,
+            &group->wlr_group->keyboard.modifiers);
 }
 
 void
@@ -1892,19 +1909,16 @@ keypress(struct wl_listener *listener, void *data)
 	/* This event is raised when a key is pressed or released. */
 	KeyboardGroup *group = wl_container_of(listener, group, key);
 	struct wlr_keyboard_key_event *event = data;
-	int nsyms, handled;
 
 	/* Translate libinput keycode -> xkbcommon */
 	uint32_t keycode = event->keycode + 8;
 	/* Get a list of keysyms based on the keymap for this keyboard */
 	const xkb_keysym_t *syms;
-	uint32_t mods = wlr_keyboard_get_modifiers(&group->wlr_group->keyboard);
-	xkb_state_update_key(en_state, keycode,
-			(event->state == WL_KEYBOARD_KEY_STATE_PRESSED)
-			? XKB_KEY_DOWN : XKB_KEY_UP);
-	nsyms = xkb_state_key_get_syms(en_state, keycode, &syms);
+	int nsyms = xkb_state_key_get_syms(
+			group->wlr_group->keyboard.xkb_state, keycode, &syms);
 
-	handled = 0;
+	int handled = 0;
+	uint32_t mods = wlr_keyboard_get_modifiers(&group->wlr_group->keyboard);
 
 	wlr_idle_notifier_v1_notify_activity(idle_notifier, seat);
 
@@ -1925,9 +1939,6 @@ keypress(struct wl_listener *listener, void *data)
 		group->nsyms = 0;
 		wl_event_source_timer_update(group->key_repeat_source, 0);
 	}
-
-	/* Записываем актуальную раскладку XKB в /tmp/kl при любом событии клавиши */
-	write_xkb_layout(group->wlr_group->keyboard.xkb_state);
 
 	if (handled)
 		return;
