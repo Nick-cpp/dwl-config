@@ -135,6 +135,7 @@ static const Key keys[] = {
 	/* modifier                  key                  function          argument */
 	{ MODKEY,                    XKB_KEY_r,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_q,           spawn,            {.v = termcmd} },
+	{ MODKEY,                    XKB_KEY_e,           spawn,            {.v = filemanager} },
     { MODKEY,                    XKB_KEY_w,           spawn,            SHCMD("~/.scripts/wallpaper.sh") },
 	{ MODKEY,                    XKB_KEY_b,           spawn,            {.v = browser} },
 	{ MODKEY,                    XKB_KEY_d,           incnmaster,       {.i = -1} },
