@@ -123,7 +123,8 @@ static const char *filemanager[] = { "pcmanfm", NULL };
 static const char *menucmd[] = { "wmenu-run", "-f", "JetBrainsMono nerd Font 12", "-l", "10", NULL };
 static const char *browser[] = { "librewolf", NULL };
 static const char *lockscreen[] = { "hyprlock", NULL };
-static const char *screenshotcmd[] = { "sh", "-c", "grim -g \"$(slurp)\" - | tee /home/USERNAME/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy", NULL };
+static const char *screenshotcmd[] = { "sh", "-c", "grim -g \"$(slurp)\" - | tee /home/nikolas/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy", NULL };
+static const char *screenshotfcmd[] = { "sh", "-c", "grim - | tee /home/nikolas/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy", NULL };
 static const char *volupcmd[]       = { "wpctl", "set-volume", "-l", "1", "@DEFAULT_AUDIO_SINK@", "5%+", NULL };
 static const char *voldowncmd[]     = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%-", NULL };
 static const char *volmutecmd[]     = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
@@ -171,6 +172,7 @@ static const Key keys[] = {
 	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                     8),
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_q,           quit,             {0} },
     { WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,   XKB_KEY_s,                      spawn,          {.v = screenshotcmd } },
+    { MODKEY|WLR_MODIFIER_ALT,              XKB_KEY_s,                      spawn,          {.v = screenshotfcmd } },
 	{ 0,                                    XKB_KEY_XF86AudioRaiseVolume,   spawn,          {.v = volupcmd } },
 	{ 0,                                    XKB_KEY_XF86AudioLowerVolume,   spawn,          {.v = voldowncmd } },
 	{ 0,                                    XKB_KEY_XF86AudioMute,          spawn,          {.v = volmutecmd } },
