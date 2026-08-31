@@ -131,12 +131,14 @@ static const char *volmutecmd[]     = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SIN
 static const char *micmutecmd[]     = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SOURCE@", "toggle", NULL };
 static const char *brightupcmd[]    = { "brightnessctl", "-e4", "-n2", "set", "5%+", NULL };
 static const char *brightdowncmd[]  = { "brightnessctl", "-e4", "-n2", "set", "5%-", NULL };
+static const char *cmuscmd[] = { "foot", "-e", "bash", "-c", "cmus", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
 	/* modifier                  key                  function          argument */
 	{ MODKEY,                    XKB_KEY_r,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_q,           spawn,            {.v = termcmd} },
+    { MODKEY|ShiftMask,          XKB_KEY_V,           spawn,            {.v = cmuscmd} },
 	{ MODKEY,                    XKB_KEY_n,           spawn,            {.v = lockscreen} },
 	{ MODKEY,                    XKB_KEY_e,           spawn,            {.v = filemanager} },
     { MODKEY,                    XKB_KEY_w,           spawn,            SHCMD("~/.scripts/wallpaper.sh") },
