@@ -138,7 +138,7 @@ static const Key keys[] = {
 	/* modifier                  key                  function          argument */
 	{ MODKEY,                    XKB_KEY_r,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_q,           spawn,            {.v = termcmd} },
-    { MODKEY|ShiftMask,          XKB_KEY_V,           spawn,            {.v = cmuscmd} },
+    { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_v,           spawn,            {.v = cmuscmd} },
 	{ MODKEY,                    XKB_KEY_n,           spawn,            {.v = lockscreen} },
 	{ MODKEY,                    XKB_KEY_e,           spawn,            {.v = filemanager} },
     { MODKEY,                    XKB_KEY_w,           spawn,            SHCMD("~/.scripts/wallpaper.sh") },
