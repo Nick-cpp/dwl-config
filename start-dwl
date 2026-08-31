@@ -10,14 +10,15 @@ export MOZ_ENABLE_WAYLAND=1
 export QT_QPA_PLATFORM=wayland
 export GDK_BACKEND=wayland,x11
 
+export WLR_RENDERER=vulkan
 export __GLX_VENDOR_LIBRARY_NAME=nvidia
-#export GBM_BACKEND=nvidia-drm
-#export __NV_PRIME_RENDER_OFFLOAD=1
-#export __VK_LAYER_NV_optimus=NVIDIA_only
-#export LIBVA_DRIVER_NAME=nvidia
-#export NVD_BACKEND=direct
+export GBM_BACKEND=nvidia-drm
+export __NV_PRIME_RENDER_OFFLOAD=1
+export __VK_LAYER_NV_optimus=NVIDIA_only
+export LIBVA_DRIVER_NAME=nvidia
+export NVD_BACKEND=direct
 #export WLR_DRM_NO_MODIFIERS=1
-#export WLR_NO_HARDWARE_CURSORS=1
+export WLR_NO_HARDWARE_CURSORS=1
 
 if command -v dbus-update-activation-environment >/dev/null 2>&1; then
     dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
