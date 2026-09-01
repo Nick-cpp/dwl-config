@@ -122,8 +122,8 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 /* commands */
 static const char *termcmd[] = { "foot", NULL };
 static const char *filemanager[] = { "pcmanfm", NULL };
-static const char *menucmd[] = { "wmenu-run", "-f", "JetBrainsMono nerd Font 12", "-l", "10", NULL };
-static const char *dmenucmd[] = { "wmenu", "-f", "JetBrainsMono nerd Font 12", "-l", "10", NULL };
+static const char *menucmd[] = { "wmenu-run", "-f", "JetBrainsMono nerd Font 12", NULL };
+static const char *dmenucmd[] = { "wmenu", "-f", "JetBrainsMono nerd Font 12", NULL };
 static const char *browser[] = { "librewolf", NULL };
 static const char *lockscreen[] = { "hyprlock", NULL };
 static const char *screenshotcmd[] = { "sh", "-c", "grim -g \"$(slurp)\" - | tee /home/nikolas/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy", NULL };
