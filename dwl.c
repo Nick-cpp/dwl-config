@@ -1871,8 +1871,8 @@ static void
 write_xkb_layout(struct xkb_state *state)
 {
     static xkb_layout_index_t prev_layout = (xkb_layout_index_t)-1;
+    static int fd = -1;
     xkb_layout_index_t layout;
-    FILE *f;
 
     if (!state)
         return;
@@ -1882,10 +1882,22 @@ write_xkb_layout(struct xkb_state *state)
     if (layout == prev_layout)
         return;
 
-    f = fopen("/tmp/kl", "w");
-    if (f) {
-        fputs((layout == 1) ? "RU" : "US", f);
-        fclose(f);
+    if (fd == -1) {
+        fd = open("/tmp/kl", O_WRONLY | O_CREAT, 0644);
+    }
+
+    if (fd != -1) {
+        struct xkb_keymap *keymap = xkb_state_get_keymap(state);
+        
+        const char *layout_name = xkb_keymap_layout_get_name(keymap, layout);
+        
+        ftruncate(fd, 0);
+        
+        char buf[128];
+        snprintf(buf, sizeof(buf), "%s\n", layout_name);
+        
+        pwrite(fd, buf, strlen(buf), 0);
+        
         prev_layout = layout;
     }
 }
@@ -1894,31 +1906,33 @@ void
 keypress(struct wl_listener *listener, void *data)
 {
     int i;
-    /* This event is raised when a key is pressed or released. */
     KeyboardGroup *group = wl_container_of(listener, group, key);
     struct wlr_keyboard_key_event *event = data;
-    int nsyms, handled;
+    int nsyms = 0, handled = 0;
 
-    /* Translate libinput keycode -> xkbcommon */
     uint32_t keycode = event->keycode + 8;
-    /* Get a list of keysyms based on the keymap for this keyboard */
-    const xkb_keysym_t *syms;
+    const xkb_keysym_t *syms = NULL;
     uint32_t mods = wlr_keyboard_get_modifiers(&group->wlr_group->keyboard);
+
     xkb_state_update_key(en_state, keycode,
             (event->state == WL_KEYBOARD_KEY_STATE_PRESSED)
             ? XKB_KEY_DOWN : XKB_KEY_UP);
-    nsyms = xkb_state_key_get_syms(en_state, keycode, &syms);
 
-    handled = 0;
+    if (event->state == WL_KEYBOARD_KEY_STATE_PRESSED) {
+        nsyms = xkb_state_key_get_syms(en_state, keycode, &syms);
+
+        if (!locked) {
+            for (i = 0; i < nsyms; i++) {
+                handled = keybinding(mods, syms[i]) || handled;
+            }
+        }
+    }
+
+    if (event->keycode == KEY_CAPSLOCK && event->state == WL_KEYBOARD_KEY_STATE_RELEASED) {
+        write_xkb_layout(group->wlr_group->keyboard.xkb_state);
+    }
 
     wlr_idle_notifier_v1_notify_activity(idle_notifier, seat);
-
-    /* On _press_ if there is no active screen locker,
-     * attempt to process a compositor keybinding. */
-    if (!locked && event->state == WL_KEYBOARD_KEY_STATE_PRESSED) {
-        for (i = 0; i < nsyms; i++)
-            handled = keybinding(mods, syms[i]) || handled;
-    }
 
     if (handled && group->wlr_group->keyboard.repeat_info.delay > 0) {
         group->mods = mods;
@@ -1931,13 +1945,10 @@ keypress(struct wl_listener *listener, void *data)
         wl_event_source_timer_update(group->key_repeat_source, 0);
     }
 
-    write_xkb_layout(group->wlr_group->keyboard.xkb_state);
-
     if (handled)
         return;
 
     wlr_seat_set_keyboard(seat, &group->wlr_group->keyboard);
-    /* Pass unhandled keycodes along to the client. */
     wlr_seat_keyboard_notify_key(seat, event->time_msec,
             event->keycode, event->state);
 }
