@@ -31,6 +31,7 @@ fi
     wlr-randr --output eDP-2 --mode 1920x1080@144.028Hz --pos 0,0 \
               --output HDMI-A-1 --mode 1920x1080@60Hz --pos 1920,0
     
+    echo "English (US)" > /tmp/kl
     pkill pipewire
     pkill wirepulse
     pkill pipewire-pulse
@@ -44,4 +45,4 @@ fi
     /usr/libexec/polkit-mate-authentication-agent-1 &
 ) &
 
-exec dbus-run-session sh -c 'slstatus -s | dwl'
+exec dbus-run-session slstatus -s | dwl
