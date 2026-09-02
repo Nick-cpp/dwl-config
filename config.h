@@ -140,7 +140,7 @@ static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
 	/* modifier                  key                  function          argument */
 	{ MODKEY,                    XKB_KEY_r,           spawn,            {.v = menucmd} },
-    { MODKEY,                    XKB_KEY_e,           spawn,            SHCMD("~/.scripts/power-menu.sh") },
+    { MODKEY,                    XKB_KEY_x,           spawn,            SHCMD("~/.scripts/power-menu.sh") },
 	{ MODKEY,                    XKB_KEY_q,           spawn,            {.v = termcmd} },
     { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_v,           spawn,            {.v = cmuscmd} },
 	{ MODKEY,                    XKB_KEY_n,           spawn,            {.v = lockscreen} },
