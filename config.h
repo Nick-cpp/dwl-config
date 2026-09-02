@@ -147,6 +147,8 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_e,           spawn,            {.v = filemanager} },
     { MODKEY,                    XKB_KEY_w,           spawn,            SHCMD("~/.scripts/wallpaper.sh") },
 	{ MODKEY,                    XKB_KEY_b,           spawn,            {.v = browser} },
+    { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_j,           movestack,        {.i = +1} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_k,           movestack,        {.i = -1} },
 	{ MODKEY,                    XKB_KEY_i,           incnmaster,       {.i = +1} },
 	{ MODKEY,                    XKB_KEY_u,           incnmaster,       {.i = -1} },
 	{ MODKEY,                    XKB_KEY_h,           setmfact,         {.f = -0.05f} },
