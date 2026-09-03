@@ -28,6 +28,16 @@ static char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 /* logging */
 static int log_level = WLR_ERROR;
 
+/* Autostart */
+static const char *const autostart[] = {
+	"swww-daemon", NULL,
+	"Throne", "-tray", NULL,
+	"mako", NULL,
+	"udiskie", NULL,
+	"/usr/libexec/polkit-mate-authentication-agent-1", NULL,
+	NULL /* terminate */
+};
+
 static const Rule rules[] = {
 	/* app_id             title       tags mask     isfloating   monitor */
 	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */

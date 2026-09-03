@@ -38,11 +38,6 @@ fi
     pipewire &
     wireplumber &
     pipewire-pulse &
-    swww-daemon &
-    Throne -tray &
-    mako &
-    udiskie &
-    /usr/libexec/polkit-mate-authentication-agent-1 &
 ) &
 
 exec dbus-run-session sh -c 'slstatus -s | dwl'
