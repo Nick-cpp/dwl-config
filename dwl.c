@@ -1641,11 +1641,9 @@ drawbar(Monitor *m)
         tray_x = (m->b.width - traywidth) / 2;
 
     /* draw status first at far right */
-    if (m == selmon) { /* status is only drawn on selected monitor */
-        drwl_setscheme(m->drw, colors[SchemeNorm]);
-        tw = TEXTW(m, stext) - m->lrpad + 2; /* 2px right padding */
-        drwl_text(m->drw, m->b.width - tw, 0, tw, m->b.height, 0, stext, 0);
-    }
+    drwl_setscheme(m->drw, colors[SchemeNorm]);
+    tw = TEXTW(m, stext) - m->lrpad + 2; /* 2px right padding */
+    drwl_text(m->drw, m->b.width - tw, 0, tw, m->b.height, 0, stext, 0);
 
     wl_list_for_each(c, &clients, link) {
         if (c->mon != m)
