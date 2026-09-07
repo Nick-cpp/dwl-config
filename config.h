@@ -11,15 +11,15 @@ static const unsigned int systrayspacing   = 2; /* systray spacing */
 static const int showsystray               = 1; /* 0 means no systray */
 static const int showbar                   = 1; /* 0 means no bar */
 static const int topbar                    = 1; /* 0 means bottom bar */
-static const char *fonts[]                 = {"JetBrainsMono Nerd Font:style=Bold:size=12"};
-static const float rootcolor[]             = COLOR(0x1e2030ff); /* mantle */
+ static const char *fonts[]                = {"JetBrainsMono Nerd Font:style=Bold:size=12"};
+static const float rootcolor[]             = COLOR(0x1a1b26ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
-static const float fullscreen_bg[]         = COLOR(0x181926ff); /* crust */
+static const float fullscreen_bg[]         = {0.1019f, 0.1058f, 0.1490f, 1.0f}; /* You can also use glsl colors */
 static uint32_t colors[][3]                = {
-    /*               fg           bg           border    */
-    [SchemeNorm] = { 0xcad3f5ff, 0x24273aff, 0x494d64ff },
-    [SchemeSel]  = { 0x24273aff, 0x8aadf4ff, 0x8aadf4ff },
-    [SchemeUrg]  = { 0x24273aff, 0xed8796ff, 0xed8796ff },
+    /*               fg          bg          border    */
+    [SchemeNorm] = { 0xc0caf5ff, 0x1e2030ff, 0x414868ff },
+    [SchemeSel]  = { 0x15161eff, 0x7aa2f7ff, 0x7aa2f7ff },
+    [SchemeUrg]  = { 0x15161eff, 0xf7768eff, 0xf7768eff },
 };
 
 /* tagging */
