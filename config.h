@@ -15,10 +15,10 @@ static const int topbar                    = 1; /* 0 means bottom bar */
 static const float rootcolor[]             = COLOR(0x1a1b26ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.1019f, 0.1058f, 0.1490f, 1.0f}; /* You can also use glsl colors */
-static uint32_t colors[][3]                = {
+static uint32_t colors[][3] = {
     /*               fg          bg          border    */
-    [SchemeNorm] = { 0xc0caf5ff, 0x1e2030ff, 0x414868ff },
-    [SchemeSel]  = { 0x15161eff, 0x7aa2f7ff, 0x7aa2f7ff },
+    [SchemeNorm] = { 0xc0caf5ff, 0x1e2030ff, 0x595959aa },
+    [SchemeSel]  = { 0x15161eff, 0x7aa2f7ff, 0x33ccffee },
     [SchemeUrg]  = { 0x15161eff, 0xf7768eff, 0xf7768eff },
 };
 
@@ -133,8 +133,8 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 /* commands */
 static const char *termcmd[] = { "foot", NULL };
 static const char *filemanager[] = { "pcmanfm", NULL };
-static const char *menucmd[] = { "wmenu-run", "-f", "JetBrainsMono Nerd Font Bold 12", NULL };
-static const char *dmenucmd[] = { "wmenu", "-f", "JetBrainsMono Nerd Font Bold 12", NULL };
+static const char *menucmd[] = { "wmenu-run", "-f", "JetBrainsMono Nerd Font Bold 12", "-N", "#1e2030", "-n", "#c0caf5", "-S", "#7aa2f7", "-s", "#15161e", "-M", "#1e2030", NULL };
+static const char *dmenucmd[] = { "wmenu", "-f", "JetBrainsMono Nerd Font Bold 12", "-N", "#1e2030", "-n", "#c0caf5", "-S", "#7aa2f7", "-s", "#15161e", "-M", "#1e2030", NULL };
 static const char *browser[] = { "librewolf", NULL };
 static const char *lockscreen[] = { "hyprlock", NULL };
 static const char *screenshotcmd[] = { "sh", "-c", "grim -g \"$(slurp)\" - | tee ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy", NULL };
