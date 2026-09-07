@@ -12,14 +12,14 @@ static const int showsystray               = 1; /* 0 means no systray */
 static const int showbar                   = 1; /* 0 means no bar */
 static const int topbar                    = 1; /* 0 means bottom bar */
 static const char *fonts[]                 = {"JetBrainsMono Nerd Font:style=Bold:size=12"};
-static const float rootcolor[]             = COLOR(0x000000ff);
+static const float rootcolor[]             = COLOR(0x1e2030ff); /* mantle */
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
-static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
+static const float fullscreen_bg[]         = COLOR(0x181926ff); /* crust */
 static uint32_t colors[][3]                = {
-    /*               fg          bg          border    */
-    [SchemeNorm] = { 0xbbbbbbff, 0x222222ff, 0x595959aa },
-    [SchemeSel]  = { 0xeeeeeeff, 0x005577ff, 0x33ccffee },
-    [SchemeUrg]  = { 0,          0,          0x770000ff },
+    /*               fg           bg           border    */
+    [SchemeNorm] = { 0xcad3f5ff, 0x24273aff, 0x494d64ff },
+    [SchemeSel]  = { 0x24273aff, 0x8aadf4ff, 0x8aadf4ff },
+    [SchemeUrg]  = { 0x24273aff, 0xed8796ff, 0xed8796ff },
 };
 
 /* tagging */
