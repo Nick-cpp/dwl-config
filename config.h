@@ -24,6 +24,7 @@ static uint32_t colors[][3]                = {
 
 /* tagging */
 static char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+#define TAGCOUNT LENGTH(tags)
 
 /* logging */
 static int log_level = WLR_ERROR;
@@ -198,6 +199,14 @@ static const Key keys[] = {
 	{ 0,                                    XKB_KEY_XF86AudioMicMute,       spawn,          {.v = micmutecmd } },
 	{ 0,                                    XKB_KEY_XF86MonBrightnessUp,    spawn,          {.v = brightupcmd } },
 	{ 0,                                    XKB_KEY_XF86MonBrightnessDown,  spawn,          {.v = brightdowncmd } },
+    { MODKEY|WLR_MODIFIER_CTRL,                     XKB_KEY_j,         moveresizekb,     {.v = (int []){ 0, 40, 0, 0 }}},
+    { MODKEY|WLR_MODIFIER_CTRL,                     XKB_KEY_k,         moveresizekb,     {.v = (int []){ 0, -40, 0, 0 }}},
+    { MODKEY|WLR_MODIFIER_CTRL,                     XKB_KEY_l,         moveresizekb,     {.v = (int []){ 40, 0, 0, 0 }}},
+    { MODKEY|WLR_MODIFIER_CTRL,                     XKB_KEY_h,         moveresizekb,     {.v = (int []){ -40, 0, 0, 0 }}},
+    { MODKEY|WLR_MODIFIER_CTRL|WLR_MODIFIER_SHIFT,  XKB_KEY_j,         moveresizekb,     {.v = (int []){ 0, 0, 0, 40 }}},
+    { MODKEY|WLR_MODIFIER_CTRL|WLR_MODIFIER_SHIFT,  XKB_KEY_k,         moveresizekb,     {.v = (int []){ 0, 0, 0, -40 }}},
+    { MODKEY|WLR_MODIFIER_CTRL|WLR_MODIFIER_SHIFT,  XKB_KEY_l,         moveresizekb,     {.v = (int []){ 0, 0, 40, 0 }}},
+    { MODKEY|WLR_MODIFIER_CTRL|WLR_MODIFIER_SHIFT,  XKB_KEY_h,         moveresizekb,     {.v = (int []){ 0, 0, -40, 0 }}},
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
 	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },
