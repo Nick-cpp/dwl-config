@@ -1,0 +1,60 @@
+*/*::hyproverlay
+
+*/*::guru ~amd64
+
+*/*::steam-overlay ~amd64
+
+*/*::edgets ~amd64
+#PCMANFM
+x11-misc/pcmanfm ~amd64
+dev-cpp/sdbus-c++ ~amd64
+x11-libs/libfm ~amd64
+
+#Throne
+dev-libs/qhotkey ~amd64
+dev-go/protobuf-go ~amd64
+
+#Telegram
+net-im/telegram-desktop-bin ~amd64
+
+#STEAM
+sys-libs/libudev-compat ~amd64
+games-util/game-device-udev-rules ~amd64
+#Dopolnitelno
+games-util/gamemode ~amd64
+gui-wm/gamescope ~amd64
+media-libs/vkroots ~amd64
+
+#ANGBAND
+games-roguelike/angband ~amd64
+
+#OBS STUDIO
+media-video/obs-studio ~amd64
+
+#TTY CLOCK
+app-misc/tty-clock ~amd64
+
+#ZELLIJ
+app-misc/zellij ~amd64
+
+#Wayland govno
+#dev-libs/wayland-protocols ~amd64
+#dev-util/wayland-scanner ~amd64
+
+#LibreWolf
+www-client/librewolf ~amd64
+dev-libs/nss ~amd64
+
+#Komikku
+app-arch/brotli ~amd64
+
+#supertuxkart
+games-action/supertuxkart ~amd64
+dev-libs/angelscript ~amd64
+
+#SEX
+games-misc/sex ~amd64
+
+#Equibop
+net-im/equibop ~amd64
+net-libs/bun ~amd64

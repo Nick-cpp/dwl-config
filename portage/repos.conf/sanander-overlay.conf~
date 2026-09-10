@@ -1,0 +1,5 @@
+[sanander-overlay]
+location = /var/db/repos/sanander-overlay
+sync-type = git
+sync-uri = https://github.com/sanander0/sanander-overlay.git
+auto-sync = yes

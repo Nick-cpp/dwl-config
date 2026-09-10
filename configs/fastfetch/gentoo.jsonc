@@ -1,0 +1,120 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "source": "~/.config/fastfetch/logo.txt",
+        "color": {
+        "1": "magenta", // Цвет, который будет использоваться вместо маркера $1
+        "2": "white"    // Цвет, который будет использоваться вместо маркера $2
+        }
+    },
+    "modules": [
+        "break",
+        {
+            "type": "custom",
+            "format": "\u001b[90m┌──────────────────────Hardware──────────────────────┐"
+        },
+        {
+            "type": "host",
+            "key": "PC",
+            "keyColor": "#fadce6"
+        },
+        {
+            "type": "cpu",
+            "key": "│ ├",
+            "keyColor": "#fadce6"
+        },
+        {
+            "type": "gpu",
+            "key": "│ ├",
+            "keyColor": "#fadce6"
+        },
+        {
+            "type": "memory",
+            "key": "│ ├",
+            "keyColor": "#fadce6"
+        },
+        {
+            "type": "disk",
+            "key": "└ └",
+            "keyColor": "#fadce6"
+        },
+        {
+            "type": "custom",
+            "format": "\u001b[90m└────────────────────────────────────────────────────┘"
+        },
+        "break",
+        {
+            "type": "custom",
+            "format": "\u001b[90m┌──────────────────────Software──────────────────────┐"
+        },
+       {
+            "type": "os",
+            "key": "OS",
+            "keyColor": "#ed7e96"
+        },
+        {
+            "type": "kernel",
+            "key": "│ ├",
+            "keyColor": "#ed7e96"
+        },
+        {
+            "type": "packages",
+            "key": "│ ├",
+            "keyColor": "#ed7e96"
+        },
+        {
+            "type": "shell",
+            "key": "└ └",
+            "keyColor": "#ed7e96"
+        },
+        "break",
+        {
+            "type": "wm",
+            "key": "WM",
+            "keyColor": "#ed7e96"
+        },
+        {
+            "type": "terminal",
+            "key": "└ └",
+            "keyColor": "#ed7e96"
+        },
+        {
+            "type": "custom",
+            "format": "\u001b[90m└────────────────────────────────────────────────────┘"
+        },
+        "break",
+        {
+            "type": "custom",
+            "format": "\u001b[90m┌─────────────────Uptime / Age / DT──────────────────┐"
+        },
+        {
+            "type": "disk",
+            "key": "  OS Age ",
+            "keyColor": "#f4a1f7",
+            "folders": "/",
+            "format": "{years} y {days} d {hours} h {minutes} m"
+        },
+        {
+            "type": "uptime",
+            "key": "  Uptime ",
+            "keyColor": "#f4a1f7"
+        },
+        {
+            "type": "datetime",
+            "key": "  DateTime ",
+            "keyColor": "#f4a1f7"
+        },
+        {
+            "type": "custom",
+            "format": "\u001b[90m└────────────────────────────────────────────────────┘"
+        },
+//        {
+//            "type": "colors"
+//        },
+        {
+            "type": "colors",
+            "paddingLeft": 2,
+            "symbol": "circle"
+        }
+    ]
+}
