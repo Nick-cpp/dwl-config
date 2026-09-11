@@ -21,9 +21,10 @@
             "format": "{user-name}"
         },
         {
-            "key": "│ 󰇅 hname   {#keys}│",
-            "type": "title",
-            "format": "{host-name}"
+            "key": "│ 󰇅 init    {#keys}│",
+            "type": "command",
+            "shell": "/bin/sh",
+            "text": "ps -p 1 -o comm="
         },
         {
             "key": "│ {icon} distro  {#keys}│",
