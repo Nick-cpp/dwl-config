@@ -22,7 +22,6 @@ filetype plugin indent on
 
 call plug#begin("~/.vim/plugged")
 Plug 'Zuhaitz-dev/holyc.nvim'
-Plug 'SirVer/ultisnips'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-syntastic/syntastic'
 Plug 'preservim/nerdcommenter'
