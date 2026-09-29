@@ -1,8 +1,7 @@
 #!/bin/sh
 
-export PS1=" \033[36m\w\033[34m O_o \033[0m"
+export PS1=" \033[36m\w\033[34m o_O \033[0m"
 
-alias ls='ls --color'
 alias g="git"
 alias c="clear"
 alias wmconf="vim ~/.config/dwl/config.h"
@@ -19,6 +18,10 @@ super() {
     su -c "sh -c '$*'"
 }
 complete -c super
+
+calc() {
+    tuxsay "$(math $*)"
+}
 
 bind '"\C-h": backward-kill-word'
 bind '"\e[127;5u": backward-kill-word'
