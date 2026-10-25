@@ -17,7 +17,6 @@ set nocompatible
 set encoding=utf8
 set nohlsearch
 set incsearch
-set shell=bash
 filetype plugin indent on
 
 call plug#begin("~/.vim/plugged")
