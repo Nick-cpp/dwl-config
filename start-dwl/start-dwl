@@ -33,7 +33,7 @@ fi
     
     echo "English (US)" > /tmp/kl
     pkill pipewire
-    pkill wirepulse
+    pkill wireplumber
     pkill pipewire-pulse
     pipewire &
     wireplumber &
